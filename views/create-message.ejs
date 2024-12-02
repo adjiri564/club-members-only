@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Create Message</title>
+</head>
+<body>
+    <h1>Create a New Message</h1>
+    <form action="/messages" method="POST">
+        <input type="text" name="title" placeholder="Message Title" required>
+        <textarea name="text" placeholder="Message Text" required></textarea>
+        <button type="submit">Submit</button>
+    </form>
+    <a href="/home">Back to Home</a>
+</body>
+</html>

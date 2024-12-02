@@ -1,0 +1,63 @@
+<!-- views/users.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Manage Users</title>
+</head>
+<body>
+    <nav class="navbar"></nav>
+        <div class="user-info">
+            <span>Welcome, <%= currentUser.firstName %></span>
+            <a href="/" class="nav-link">Home</a>
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Manage Users</h1>
+        
+        <nav>
+            <a href="/" class="nav-link">Back to Home</a>
+        </nav>
+
+        <div class="users-list">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Member Status</th>
+                        <th>Admin</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach(user => { %>
+                        <tr>
+                            <td><%= user.firstName %> <%= user.lastName %></td>
+                            <td><%= user.username %></td>
+                            <td><%= user.email %></td>
+                            <td><%= user.membershipStatus ? 'Yes' : 'No' %></td>
+                            <td><%= user.isAdmin ? 'Yes' : 'No' %></td>
+                            <td>
+                                <% if (user.id !== currentUser.id) { %>
+                                    <form action="/users/<%= user.id %>?_method=DELETE" method="POST" class="delete-form">
+                                        <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this user?')">
+                                            Delete
+                                        </button>
+                                    </form>
+                                <% } else { %>
+                                    <span class="current-user">(Current User)</span>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

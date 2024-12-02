@@ -1,0 +1,54 @@
+<!-- views/home.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Home</title>
+</head>
+<body>
+    <nav class="navbar"></nav>
+        <div class="user-info">
+            <% if (user) { %>
+                <span>Welcome, <%= user.firstName %></span>
+                <p>Membership Status: <%= user.membershipStatus ? 'Member' : 'Not a Member' %></p>
+                <% if (user.isAdmin) { %>
+                    <a href="/users" class="admin-link">Manage Users</a>
+                <% } %>
+                <a href="/logout" class="logout-btn">Logout</a>
+            <% } %>
+        </div>
+    </nav>
+
+    <% if (!user.membershipStatus) { %>
+        <div class="join-section">
+            <h2>Join the Club</h2>
+            <p>Enter the secret passcode to see messages!</p>
+            <form action="/join" method="POST">
+                <input type="password" name="passcode" placeholder="Enter passcode" required>
+                <button type="submit">Join</button>
+            </form>
+        </div>
+    <% } %>
+
+    <div class="messages">
+        <% if (user.membershipStatus) { %>
+            <% messages.forEach(message => { %>
+                <div class="message">
+                    <h3><%= message.title %></h3>
+                    <p><%= message.text %></p>
+                    
+                    <% if (user.isAdmin) { %>
+                        <form action="/messages/<%= message.id %>?_method=DELETE" method="POST">
+                            <button type="submit" class="delete-btn">Delete Message</button>
+                        </form>
+                    <% } %>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p>You need to be a member to see messages.</p>
+        <% } %>
+    </div>
+</body>
+</html>
